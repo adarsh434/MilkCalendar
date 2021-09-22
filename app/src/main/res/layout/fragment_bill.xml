@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/price"
         android:layout_marginTop="20dp"
-        android:text="Enter Price(per liter)"
+        android:text="Total Volume(liters)"
         android:layout_marginLeft="10dp"
         android:textSize="20sp"
         android:visibility="invisible"/>
