@@ -1,13 +1,10 @@
 package com.example.milkcalender.Fragments;
 
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.milkcalender.MainActivity;
+
 import com.example.milkcalender.R;
+import com.example.milkcalender.Utils.DatabaseHandler;
 
 public class BillFragment extends Fragment {
 
@@ -41,6 +39,8 @@ public class BillFragment extends Fragment {
         enterVolume = root.findViewById(R.id.enterVolume);
         totalPrice = root.findViewById(R.id.totalPrice);
 
+        DatabaseHandler handler = new DatabaseHandler(getContext());
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,33 +61,60 @@ public class BillFragment extends Fragment {
                     for (int i = dayOfMonth; i <= 31; i++) {
                         String dayMonthYear = "" + i + month + year;
 
-                        SharedPreferences sh = getActivity().getSharedPreferences(dayMonthYear, Context.MODE_PRIVATE);
-                        totalVolume = totalVolume + sh.getInt("volume", 00);
+                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                            SQLiteDatabase db = handler.getReadableDatabase();
+                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
+
+                            Cursor cursor = db.rawQuery(Query, null);
+                            cursor.moveToFirst();
+                            String data = cursor.getString(cursor.getColumnIndex("volume"));
+                            totalVolume = totalVolume + Integer.parseInt(data);
+                        }
                     }
                 }
                 else if(month == 1 && ( ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0) )) {
                     for (int i = dayOfMonth; i <= 29; i++) {
                         String dayMonthYear = "" + i + month + year;
 
-                        SharedPreferences sh = getActivity().getSharedPreferences(dayMonthYear, Context.MODE_PRIVATE);
-                        totalVolume = totalVolume + sh.getInt("volume", 00);
+                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                            SQLiteDatabase db = handler.getReadableDatabase();
+                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
+
+                            Cursor cursor = db.rawQuery(Query, null);
+                            cursor.moveToFirst();
+                            String data = cursor.getString(cursor.getColumnIndex("volume"));
+                            totalVolume = totalVolume + Integer.parseInt(data);
+                        }
                     }
                 }
                 else if(month == 1 || month == 3 || month == 5 || month == 8 || month == 10){
                     for (int i = dayOfMonth; i <= 30; i++) {
                         String dayMonthYear = "" + i + month + year;
 
-                        SharedPreferences sh = getActivity().getSharedPreferences(dayMonthYear, Context.MODE_PRIVATE);
-                        System.out.println(sh.getInt("volume", 00));
-                        totalVolume = totalVolume + sh.getInt("volume", 00);
+                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                            SQLiteDatabase db = handler.getReadableDatabase();
+                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
+
+                            Cursor cursor = db.rawQuery(Query, null);
+                            cursor.moveToFirst();
+                            String data = cursor.getString(cursor.getColumnIndex("volume"));
+                            totalVolume = totalVolume + Integer.parseInt(data);
+                        }
                     }
                 }
                 else {
                     for (int i = dayOfMonth; i <= 28; i++) {
                         String dayMonthYear = "" + i + month + year;
 
-                        SharedPreferences sh = getActivity().getSharedPreferences(dayMonthYear, Context.MODE_PRIVATE);
-                        totalVolume = totalVolume + sh.getInt("volume", 00);
+                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                            SQLiteDatabase db = handler.getReadableDatabase();
+                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
+
+                            Cursor cursor = db.rawQuery(Query, null);
+                            cursor.moveToFirst();
+                            String data = cursor.getString(cursor.getColumnIndex("volume"));
+                            totalVolume = totalVolume + Integer.parseInt(data);
+                        }
                     }
                 }
                 String set = ""+totalVolume;

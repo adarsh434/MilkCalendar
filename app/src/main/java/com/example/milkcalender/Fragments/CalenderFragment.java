@@ -1,7 +1,7 @@
 package com.example.milkcalender.Fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.milkcalender.R;
+import com.example.milkcalender.Utils.DatabaseHandler;
 
 public class CalenderFragment extends Fragment {
 
@@ -24,6 +25,7 @@ public class CalenderFragment extends Fragment {
     EditText editText;
     TextView textView;
     Button button;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class CalenderFragment extends Fragment {
         editText = root.findViewById(R.id.volume);
         textView = root.findViewById(R.id.enterVolume);
         button = root.findViewById(R.id.save);
+
+        DatabaseHandler handler = new DatabaseHandler(getContext());
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -51,20 +55,27 @@ public class CalenderFragment extends Fragment {
                             Toast.makeText(getActivity(), "First Enter Volume", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(dayMonthYear, Context.MODE_PRIVATE);
-                            SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-                            myEdit.putInt("volume", Integer.parseInt(editText.getText().toString()));
-                            myEdit.apply();
-
-                            Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                            if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                                handler.updateVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
+                                Toast.makeText(getActivity(), "VolumeUpdated", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                handler.addVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
+                                Toast.makeText(getActivity(), "VolumeSaved", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
 
-                SharedPreferences sh = getActivity().getSharedPreferences(dayMonthYear, Context.MODE_PRIVATE);
-                int volume = sh.getInt("volume", 00);
-                editText.setText(String.valueOf(volume));
+                if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                    SQLiteDatabase db = handler.getReadableDatabase();
+                    String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
+
+                    Cursor cursor = db.rawQuery(Query, null);
+                    cursor.moveToFirst();
+                    String data = cursor.getString(cursor.getColumnIndex("volume"));
+                    editText.setText(data);
+                }
             }
         });
         return root;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashScreen"
-    android:background="@color/background">
+    android:background="@color/black">
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,7 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@raw/starting"
-        android:scaleType="center"/>
+        android:src="@raw/milksplash"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
