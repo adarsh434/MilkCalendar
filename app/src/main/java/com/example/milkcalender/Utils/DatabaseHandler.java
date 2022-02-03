@@ -16,7 +16,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TODO_TABLE = "CREATE TABLE MilkCalender (date VARCHAR(10) PRIMARY KEY, volume INTEGER)";
+        String CREATE_TODO_TABLE = "CREATE TABLE MilkCalender (date VARCHAR(10) PRIMARY KEY, volume REAL)";
         db.execSQL(CREATE_TODO_TABLE);
     }
 
@@ -26,7 +26,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addVolume(String date, int volume) {
+    public void addVolume(String date, float volume) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -37,7 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert("MilkCalender", null, values);
     }
 
-    public void updateVolume(String date, int volume){
+    public void updateVolume(String date, float volume){
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE MilkCalender SET volume="+volume+" WHERE date="+date);

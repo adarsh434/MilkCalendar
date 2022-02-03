@@ -44,7 +44,7 @@ public class BillFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int totalVolume = 0;
+                float totalVolume = 0;
                 int dayOfMonth = datePicker.getDayOfMonth();
                 int month = datePicker.getMonth();
                 int year = datePicker.getYear();
@@ -68,7 +68,7 @@ public class BillFragment extends Fragment {
                         Cursor cursor = db.rawQuery(Query, null);
                         cursor.moveToFirst();
                         String data = cursor.getString(cursor.getColumnIndex("volume"));
-                        totalVolume = totalVolume + Integer.parseInt(data);
+                        totalVolume = totalVolume + Float.parseFloat(data);
                     }
                 }
                 String set = ""+totalVolume;
@@ -83,9 +83,9 @@ public class BillFragment extends Fragment {
                     Toast.makeText(getContext(), "First Enter Price", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    int Rs = Integer.parseInt(price.getText().toString());
-                    int TotalVolume = Integer.parseInt(volume.getText().toString());
-                    int totalRs = Rs * TotalVolume;
+                    float Rs = Float.parseFloat(price.getText().toString());
+                    float TotalVolume = Float.parseFloat(volume.getText().toString());
+                    float totalRs = Rs * TotalVolume;
                     String set = "Rs."+totalRs;
                     rate.setText(set);
                 }

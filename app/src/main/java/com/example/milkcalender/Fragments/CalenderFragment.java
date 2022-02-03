@@ -65,7 +65,9 @@ public class CalenderFragment extends Fragment {
                             }
                             else {
                                 if (handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
-                                    handler.updateVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
+                                    Float volume = Float.parseFloat(editText.getText().toString());
+                                    handler.updateVolume(dayMonthYear, volume);
+
                                     Toast.makeText(getActivity(), "VolumeUpdated", Toast.LENGTH_SHORT).show();
                                 }
                                 else {

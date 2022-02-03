@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/showBill"
         app:layout_constraintStart_toEndOf="@+id/enterPrice"
         android:layout_marginTop="10dp"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:maxLines="1"
         android:hint="Price"
         android:visibility="invisible"/>
