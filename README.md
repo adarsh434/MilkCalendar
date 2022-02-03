@@ -4,6 +4,10 @@ App location: app->build->outputs->apk->debug->app-debug.app
 <br><br>
 <img src="Screenshots/SplashScreen.jpg" width="300" height="500"/>
 <br>
-<img src="Screenshots/Calendar.jpeg" width="300" height="500"/>
+<img src="Screenshots/Calendar.jpg" width="300" height="500"/>
+<br>
+<img src="Screenshots/Saved.jpg" width="300" height="500"/>
+<br>
+<img src="Screenshots/Updated.jpg" width="300" height="500"/>
 <br>
 <img src="Screenshots/CalculateBill.jpg" width="300" height="500"/>

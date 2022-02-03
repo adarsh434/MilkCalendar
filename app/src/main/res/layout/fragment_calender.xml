@@ -49,6 +49,17 @@
         android:hint="Enter Volume"
         android:visibility="invisible"/>
 
+    <TextView
+        android:id="@+id/displayVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/volume"
+        app:layout_constraintBottom_toBottomOf="@+id/enterVolume"
+        app:layout_constraintEnd_toEndOf="@+id/volume"
+        android:layout_marginRight="30dp"
+        android:visibility="invisible"/>
+
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"

@@ -23,7 +23,7 @@ public class CalenderFragment extends Fragment {
 
     CalendarView calendarView;
     EditText editText;
-    TextView textView;
+    TextView textView, displayVolume;
     Button button;
 
 
@@ -36,6 +36,7 @@ public class CalenderFragment extends Fragment {
         editText = root.findViewById(R.id.volume);
         textView = root.findViewById(R.id.enterVolume);
         button = root.findViewById(R.id.save);
+        displayVolume = root.findViewById(R.id.displayVolume);
 
         DatabaseHandler handler = new DatabaseHandler(getContext());
 
@@ -45,23 +46,36 @@ public class CalenderFragment extends Fragment {
                 editText.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.VISIBLE);
                 button.setVisibility(View.VISIBLE);
+                displayVolume.setVisibility(View.INVISIBLE);
                 editText.setText("");
 
                 String dayMonthYear = ""+dayOfMonth+month+year;
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(editText.getText().toString().isEmpty()) {
-                            Toast.makeText(getActivity(), "First Enter Volume", Toast.LENGTH_SHORT).show();
+                        if(button.getText() == "Update"){
+                            editText.setVisibility(View.VISIBLE);
+                            displayVolume.setVisibility(View.INVISIBLE);
+                            editText.setText(displayVolume.getText());
+                            button.setText("Save");
                         }
                         else {
-                            if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
-                                handler.updateVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
-                                Toast.makeText(getActivity(), "VolumeUpdated", Toast.LENGTH_SHORT).show();
+                            if (editText.getText().toString().isEmpty()) {
+                                Toast.makeText(getActivity(), "First Enter Volume", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                handler.addVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
-                                Toast.makeText(getActivity(), "VolumeSaved", Toast.LENGTH_SHORT).show();
+                                if (handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                                    handler.updateVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
+                                    Toast.makeText(getActivity(), "VolumeUpdated", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    handler.addVolume(dayMonthYear, Integer.parseInt(editText.getText().toString()));
+                                    Toast.makeText(getActivity(), "VolumeSaved", Toast.LENGTH_SHORT).show();
+                                }
+                                displayVolume.setVisibility(View.VISIBLE);
+                                editText.setVisibility(View.INVISIBLE);
+                                button.setText("Update");
+                                displayVolume.setText(editText.getText());
                             }
                         }
                     }
@@ -74,7 +88,14 @@ public class CalenderFragment extends Fragment {
                     Cursor cursor = db.rawQuery(Query, null);
                     cursor.moveToFirst();
                     String data = cursor.getString(cursor.getColumnIndex("volume"));
-                    editText.setText(data);
+
+                    displayVolume.setVisibility(View.VISIBLE);
+                    editText.setVisibility(View.INVISIBLE);
+                    button.setText("Update");
+                    displayVolume.setText(data);
+                }
+                else{
+                    button.setText("Save");
                 }
             }
         });

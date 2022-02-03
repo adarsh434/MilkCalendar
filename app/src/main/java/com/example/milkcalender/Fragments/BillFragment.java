@@ -57,64 +57,18 @@ public class BillFragment extends Fragment {
                 enterVolume.setVisibility(View.VISIBLE);
                 totalPrice.setVisibility(View.VISIBLE);
 
-                if(month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
-                    for (int i = dayOfMonth; i <= 31; i++) {
-                        String dayMonthYear = "" + i + month + year;
 
-                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
-                            SQLiteDatabase db = handler.getReadableDatabase();
-                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
+                for (int i = dayOfMonth; i <= 31; i++) {
+                    String dayMonthYear = "" + i + month + year;
 
-                            Cursor cursor = db.rawQuery(Query, null);
-                            cursor.moveToFirst();
-                            String data = cursor.getString(cursor.getColumnIndex("volume"));
-                            totalVolume = totalVolume + Integer.parseInt(data);
-                        }
-                    }
-                }
-                else if(month == 1 && ( ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0) )) {
-                    for (int i = dayOfMonth; i <= 29; i++) {
-                        String dayMonthYear = "" + i + month + year;
+                    if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
+                        SQLiteDatabase db = handler.getReadableDatabase();
+                        String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
 
-                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
-                            SQLiteDatabase db = handler.getReadableDatabase();
-                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
-
-                            Cursor cursor = db.rawQuery(Query, null);
-                            cursor.moveToFirst();
-                            String data = cursor.getString(cursor.getColumnIndex("volume"));
-                            totalVolume = totalVolume + Integer.parseInt(data);
-                        }
-                    }
-                }
-                else if(month == 1 || month == 3 || month == 5 || month == 8 || month == 10){
-                    for (int i = dayOfMonth; i <= 30; i++) {
-                        String dayMonthYear = "" + i + month + year;
-
-                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
-                            SQLiteDatabase db = handler.getReadableDatabase();
-                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
-
-                            Cursor cursor = db.rawQuery(Query, null);
-                            cursor.moveToFirst();
-                            String data = cursor.getString(cursor.getColumnIndex("volume"));
-                            totalVolume = totalVolume + Integer.parseInt(data);
-                        }
-                    }
-                }
-                else {
-                    for (int i = dayOfMonth; i <= 28; i++) {
-                        String dayMonthYear = "" + i + month + year;
-
-                        if(handler.CheckIsDataAlreadyPresent(dayMonthYear)) {
-                            SQLiteDatabase db = handler.getReadableDatabase();
-                            String Query = "SELECT volume FROM MilkCalender WHERE date = " + dayMonthYear;
-
-                            Cursor cursor = db.rawQuery(Query, null);
-                            cursor.moveToFirst();
-                            String data = cursor.getString(cursor.getColumnIndex("volume"));
-                            totalVolume = totalVolume + Integer.parseInt(data);
-                        }
+                        Cursor cursor = db.rawQuery(Query, null);
+                        cursor.moveToFirst();
+                        String data = cursor.getString(cursor.getColumnIndex("volume"));
+                        totalVolume = totalVolume + Integer.parseInt(data);
                     }
                 }
                 String set = ""+totalVolume;
